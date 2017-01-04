@@ -1,0 +1,21 @@
+{
+    "author": "seanrice@seanrice.net",
+    "dependencies": {},
+    "keywords": [],
+    "name": "pebble-rings",
+    "pebble": {
+        "displayName": "Pebble-Rings",
+        "enableMultiJS": true,
+        "messageKeys": [],
+        "projectType": "rocky",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "uuid": "2203f743-8cd4-465f-83d2-a5abf46655e0",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}
