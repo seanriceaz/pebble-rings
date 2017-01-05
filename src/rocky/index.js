@@ -1,4 +1,3 @@
-//This file is started from this: https://developer.pebble.com/tutorials/js-watchface-tutorial/part1/
 //Include our time library
 var rocky = require('rocky');
 
@@ -6,14 +5,17 @@ var rocky = require('rocky');
 
 var lineThickness = 6;
 var gap=1;
+
+//Some color options
 //All green
 //var colors = ['mintgreen','inchworm','springbud','screamingreen','brightGreen','malachite','green','maygreen','kellygreen','jaegergreen','islamicgreen','darkgreen'];
 //rainbowy
 //var colors = ['green','mediumaquamarine','cyan','bluemoon','electricultramarine','vividviolet','magenta','folly','red','orange','yellow','springbud'];
 //Alternating Red to yellow
-//var colors = ['red','orange','chromeyellow','yellow','chromeyellow','orange','red','orange','chromeyellow','yellow','chromeyellow','orange','red'];
+//var colors = ['red','orange','chromeyellow','yellow'];
 //Alternating Green to violet
-//var colors = ['vividcerulean','bluemoon','electricultramarine','bluemoon','vividcerulean','bluemoon','electricultramarine','bluemoon','vividcerulean','bluemoon','electricultramarine','bluemoon'];
+//var colors = ['vividcerulean','bluemoon','electricultramarine'];
+
 //Lighter colors
 var colors = ['screamingreen','inchworm','yellow'];
 //Every minute we update
@@ -24,7 +26,7 @@ rocky.on('minutechange', function(event) {
 rocky.on('draw', function(event) {
   // Get the CanvasRenderingContext2D object
   var ctx = event.context;
-
+  //Get our date/time
   var d = new Date();
 
   // Clear the screen
@@ -49,13 +51,13 @@ rocky.on('draw', function(event) {
   for ( var i=0; i <  thisHour; i++){
     var r = (Math.min(w, h) / 2) - (i * lineThickness);    
     
-    //Draw some circles
+    //Draw some circles for past hours
     ctx.strokeStyle = colors[colorCycle];
     ctx.beginPath();
     ctx.arc(cx, cy, (r-(lineThickness/2)-(gap*i)), 0, (2 * Math.PI), false); 
     ctx.stroke();
     
-    //Change the color
+    //Change the color for next time
     colorCycle = colorCycle+colorUp;
     if(colorCycle===0||colorCycle==colors.length-1) {
       colorUp = colorUp * -1;
@@ -66,16 +68,10 @@ rocky.on('draw', function(event) {
   // Radius changes every hour
   var radius = (Math.min(w, h) / 2) - ( thisHour * lineThickness);
   
-  // Calculate the minute hand angle
+  // Calculate the minute angle
   var minuteFraction = d.getMinutes() / 60;
-  //var minuteAngle = fractionToRadian(minuteFraction);
-  // console.log("current hour: "+ thisHour);
-  //console.log("current minute: "+ d.getMinutes());
-  // console.log("current minuteFr: "+ minuteFraction);
-  // Draw the minute hand
-  //ctx.fillStyle = colors[thisHour];
-  //ctx.rockyFillRadial(cx, cy, (radius-lineThickness), radius , 0, (2 * Math.PI * minuteFraction)); 
   
+  //Render our partial circle that represents the minutes
   ctx.strokeStyle = colors[colorCycle];
   ctx.beginPath();
   ctx.arc(cx, cy, (radius-(lineThickness/2)-(gap*thisHour)), (1.5 * Math.PI), ((2 * Math.PI * minuteFraction)-(0.5*Math.PI)), false); 
