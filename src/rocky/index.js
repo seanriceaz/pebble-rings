@@ -4,13 +4,15 @@ var rocky = require('rocky');
 
 //Global variables for this
 
-var lineThickness = 2;
-var colors = ["#00FF00","#00eF00","#00dF00","#00cF00","#00bF00","#00aF00","#009F00","#008F00","#007F00","#006F00","#005F00","#004F00","#003F00","#002F00","#001F00","#000F00","#000000"];
-
-function fractionToRadian(fraction) {
-  return fraction * 2 * Math.PI;
-}
-
+var lineThickness = 6;
+//All green
+//var colors = ['mintgreen','inchworm','springbud','screamingreen','brightGreen','malachite','green','maygreen','kellygreen','jaegergreen','islamicgreen','darkgreen'];
+//rainbowy
+//var colors = ['green','mediumaquamarine','cyan','bluemoon','electricultramarine','vividviolet','magenta','folly','red','orange','yellow','springbud'];
+//Alternating Red to yellow
+//var colors = ['red','orange','chromeyellow','yellow','chromeyellow','orange','red','orange','chromeyellow','yellow','chromeyellow','orange','red'];
+//Alternating Green to violet
+var colors = ['vividcerulean','bluemoon','electricultramarine','bluemoon','vividcerulean','bluemoon','electricultramarine','bluemoon','vividcerulean','bluemoon','electricultramarine','bluemoon'];
 //Every minute we update
 rocky.on('minutechange', function(event) {
   rocky.requestDraw();
@@ -35,22 +37,33 @@ rocky.on('draw', function(event) {
   var cy = h / 2;
   
   //Draw circles up to the current hour
-  
-  for ( var i=0; i < d.getHours(); i++){
+  var thisHour = d.getHours() % 12;
+  for ( var i=0; i <=  thisHour; i++){
     var r = (Math.min(w, h) / 2) - (i * lineThickness);
     ctx.fillStyle = colors[i];
+    
+    if (i==thisHour) {
+      ctx.fillStyle = 'black';
+    } 
     ctx.rockyFillRadial(cx, cy, 0, r , 0, 2 * Math.PI); 
+    //console.log("Drawing circle "+ r);
   }
   
   // Radius changes every hour
-  var radius = (Math.min(w, h)) / 2 - (d.getHours() * lineThickness);
-
-  // Calculate the minute hand angle
-  var minuteFraction = (d.getMinutes()) / 60;
-  var minuteAngle = fractionToRadian(minuteFraction);
+  var radius = (Math.min(w, h) / 2) - ( thisHour * lineThickness);
   
+  // Calculate the minute hand angle
+  var minuteFraction = d.getMinutes() / 60;
+  //var minuteAngle = fractionToRadian(minuteFraction);
+  // console.log("current hour: "+ thisHour);
+  //console.log("current minute: "+ d.getMinutes());
+  // console.log("current minuteFr: "+ minuteFraction);
   // Draw the minute hand
-  ctx.fillStyle = colors[d.getHours()];
-  ctx.rockyFillRadial(cx, cy, 0, radius , 0, minuteAngle); 
-
+  //ctx.fillStyle = colors[thisHour];
+  //ctx.rockyFillRadial(cx, cy, (radius-lineThickness), radius , 0, (2 * Math.PI * minuteFraction)); 
+  ctx.lineWidth = lineThickness;
+  ctx.strokeStyle = colors[thisHour];
+  ctx.beginPath();
+  ctx.arc(cx, cy, (radius-(lineThickness/2)), (1.5 * Math.PI), ((2 * Math.PI * minuteFraction)-(0.5*Math.PI)), false); 
+  ctx.stroke();
 });
