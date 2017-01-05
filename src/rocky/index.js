@@ -4,6 +4,7 @@ var rocky = require('rocky');
 //Global variables for this
 
 var lineThickness = 6;
+var margin = 3; //Account for area of the screen beneath the bezel
 var gap=1;
 
 //Some color options
@@ -49,8 +50,7 @@ rocky.on('draw', function(event) {
   var colorCycle=0;
   var colorUp=1;
   for ( var i=0; i <  thisHour; i++){
-    var r = (Math.min(w, h) / 2) - (i * lineThickness);    
-    
+    var r = (Math.min(w, h) / 2) - (i * lineThickness) - margin;    
     //Draw some circles for past hours
     ctx.strokeStyle = colors[colorCycle];
     ctx.beginPath();
@@ -66,7 +66,7 @@ rocky.on('draw', function(event) {
   }
   
   // Radius changes every hour
-  var radius = (Math.min(w, h) / 2) - ( thisHour * lineThickness);
+  var radius = (Math.min(w, h) / 2) - ( thisHour * lineThickness) - margin;
   
   // Calculate the minute angle
   var minuteFraction = d.getMinutes() / 60;
