@@ -5,6 +5,7 @@ var rocky = require('rocky');
 //Global variables for this
 
 var lineThickness = 6;
+var gap=1;
 //All green
 //var colors = ['mintgreen','inchworm','springbud','screamingreen','brightGreen','malachite','green','maygreen','kellygreen','jaegergreen','islamicgreen','darkgreen'];
 //rainbowy
@@ -12,7 +13,9 @@ var lineThickness = 6;
 //Alternating Red to yellow
 //var colors = ['red','orange','chromeyellow','yellow','chromeyellow','orange','red','orange','chromeyellow','yellow','chromeyellow','orange','red'];
 //Alternating Green to violet
-var colors = ['vividcerulean','bluemoon','electricultramarine','bluemoon','vividcerulean','bluemoon','electricultramarine','bluemoon','vividcerulean','bluemoon','electricultramarine','bluemoon'];
+//var colors = ['vividcerulean','bluemoon','electricultramarine','bluemoon','vividcerulean','bluemoon','electricultramarine','bluemoon','vividcerulean','bluemoon','electricultramarine','bluemoon'];
+//Lighter colors
+var colors = ['screamingreen','inchworm','yellow'];
 //Every minute we update
 rocky.on('minutechange', function(event) {
   rocky.requestDraw();
@@ -26,7 +29,10 @@ rocky.on('draw', function(event) {
 
   // Clear the screen
   ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
-
+  
+  //Set our line width
+  ctx.lineWidth = lineThickness;
+  
   // Determine the width and height of the display
   var w = ctx.canvas.unobstructedWidth;
   var h = ctx.canvas.unobstructedHeight;
@@ -38,15 +44,23 @@ rocky.on('draw', function(event) {
   
   //Draw circles up to the current hour
   var thisHour = d.getHours() % 12;
-  for ( var i=0; i <=  thisHour; i++){
-    var r = (Math.min(w, h) / 2) - (i * lineThickness);
-    ctx.fillStyle = colors[i];
+  var colorCycle=0;
+  var colorUp=1;
+  for ( var i=0; i <  thisHour; i++){
+    var r = (Math.min(w, h) / 2) - (i * lineThickness);    
     
-    if (i==thisHour) {
-      ctx.fillStyle = 'black';
-    } 
-    ctx.rockyFillRadial(cx, cy, 0, r , 0, 2 * Math.PI); 
-    //console.log("Drawing circle "+ r);
+    //Draw some circles
+    ctx.strokeStyle = colors[colorCycle];
+    ctx.beginPath();
+    ctx.arc(cx, cy, (r-(lineThickness/2)-(gap*i)), 0, (2 * Math.PI), false); 
+    ctx.stroke();
+    
+    //Change the color
+    colorCycle = colorCycle+colorUp;
+    if(colorCycle===0||colorCycle==colors.length-1) {
+      colorUp = colorUp * -1;
+    }
+    
   }
   
   // Radius changes every hour
@@ -61,9 +75,9 @@ rocky.on('draw', function(event) {
   // Draw the minute hand
   //ctx.fillStyle = colors[thisHour];
   //ctx.rockyFillRadial(cx, cy, (radius-lineThickness), radius , 0, (2 * Math.PI * minuteFraction)); 
-  ctx.lineWidth = lineThickness;
-  ctx.strokeStyle = colors[thisHour];
+  
+  ctx.strokeStyle = colors[colorCycle];
   ctx.beginPath();
-  ctx.arc(cx, cy, (radius-(lineThickness/2)), (1.5 * Math.PI), ((2 * Math.PI * minuteFraction)-(0.5*Math.PI)), false); 
+  ctx.arc(cx, cy, (radius-(lineThickness/2)-(gap*thisHour)), (1.5 * Math.PI), ((2 * Math.PI * minuteFraction)-(0.5*Math.PI)), false); 
   ctx.stroke();
 });
