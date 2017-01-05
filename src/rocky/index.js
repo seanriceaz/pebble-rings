@@ -2,28 +2,13 @@
 //Include our time library
 var rocky = require('rocky');
 
+//Global variables for this
+
+var lineThickness = 2;
+var colors = ["#00FF00","#00eF00","#00dF00","#00cF00","#00bF00","#00aF00","#009F00","#008F00","#007F00","#006F00","#005F00","#004F00","#003F00","#002F00","#001F00","#000F00","#000000"];
+
 function fractionToRadian(fraction) {
   return fraction * 2 * Math.PI;
-}
-
-function drawAngle(ctx, cx, cy, angle, length, color){
-  // Find the end points
-  var x2 = cx + Math.sin(angle) * length;
-  var y2 = cy - Math.cos(angle) * length;
-
-  // Configure how we want to draw the hand
-  ctx.lineWidth = 8;
-  ctx.strokeStyle = color;
-
-  // Begin drawing
-  ctx.beginPath();
-
-  // Move to the center point, then draw the line
-  ctx.moveTo(cx, cy);
-  ctx.lineTo(x2, y2);
-
-  // Stroke the line (output to display)
-  ctx.stroke();
 }
 
 //Every minute we update
@@ -38,7 +23,7 @@ rocky.on('draw', function(event) {
   var d = new Date();
 
   // Clear the screen
-  //ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
+  ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
 
   // Determine the width and height of the display
   var w = ctx.canvas.unobstructedWidth;
@@ -48,25 +33,24 @@ rocky.on('draw', function(event) {
   // and the max size of watch hands
   var cx = w / 2;
   var cy = h / 2;
-
-  // -20 so we're inset 10px on each side
-  var maxLength = (Math.min(w, h) - 20) / 2;
+  
+  //Draw circles up to the current hour
+  
+  for ( var i=0; i < d.getHours(); i++){
+    var r = (Math.min(w, h) / 2) - (i * lineThickness);
+    ctx.fillStyle = colors[i];
+    ctx.rockyFillRadial(cx, cy, 0, r , 0, 2 * Math.PI); 
+  }
+  
+  // Radius changes every hour
+  var radius = (Math.min(w, h)) / 2 - (d.getHours() * lineThickness);
 
   // Calculate the minute hand angle
   var minuteFraction = (d.getMinutes()) / 60;
   var minuteAngle = fractionToRadian(minuteFraction);
-
+  
   // Draw the minute hand
-  drawHand(ctx, cx, cy, minuteAngle, maxLength, "white");
+  ctx.fillStyle = colors[d.getHours()];
+  ctx.rockyFillRadial(cx, cy, 0, radius , 0, minuteAngle); 
 
-  // Calculate the hour hand angle
-  var hourFraction = (d.getHours() % 12 + minuteFraction) / 12;
-  var hourAngle = fractionToRadian(hourFraction);
-
-  // Draw the hour hand
-  drawHand(ctx, cx, cy, hourAngle, maxLength * 0.6, "lightblue");
 });
-  
-  //radius of the circle is based on the hour (smaller as hours is higher)
-  
-  //Angle drawn is based on the minute (minute 60 is a complete circle)
