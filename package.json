@@ -4,6 +4,9 @@
     "keywords": [],
     "name": "rings",
     "pebble": {
+        "capabilities": [
+            "configurable"
+        ],
         "displayName": "Rings by SeanRice",
         "enableMultiJS": true,
         "messageKeys": [],

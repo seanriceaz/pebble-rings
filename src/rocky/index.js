@@ -3,22 +3,14 @@ var rocky = require('rocky');
 
 //Global variables for this
 
+//set up defaults
 var lineThickness = 6;
 var margin = 3; //Account for area of the screen beneath the bezel
 var gap=1;
-
-//Some color options
-//All green
-//var colors = ['mintgreen','inchworm','springbud','screamingreen','brightGreen','malachite','green','maygreen','kellygreen','jaegergreen','islamicgreen','darkgreen'];
-//rainbowy
-//var colors = ['green','mediumaquamarine','cyan','bluemoon','electricultramarine','vividviolet','magenta','folly','red','orange','yellow','springbud'];
-//Alternating Red to yellow
-//var colors = ['red','orange','chromeyellow','yellow'];
-//Alternating Green to violet
-//var colors = ['vividcerulean','bluemoon','electricultramarine'];
-
-//Lighter colors
 var colors = ['screamingreen','inchworm','yellow'];
+
+var settings = null;
+
 //Every minute we update
 rocky.on('minutechange', function(event) {
   rocky.requestDraw();
@@ -30,6 +22,11 @@ rocky.on('draw', function(event) {
   //Get our date/time
   var d = new Date();
 
+  //Apply settings
+  if (settings) {
+    backgroundColor = cssColor(settings.BackgroundColor);
+  }
+  
   // Clear the screen
   ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
   
@@ -77,3 +74,41 @@ rocky.on('draw', function(event) {
   ctx.arc(cx, cy, (radius-(lineThickness/2)-(gap*thisHour)), (1.5 * Math.PI), ((2 * Math.PI * minuteFraction)-(0.5*Math.PI)), false); 
   ctx.stroke();
 });
+
+rocky.on('message', function(event) {
+  settings = event.data;
+});
+
+rocky.postMessage({command: 'settings'});
+
+// Borrowed from Clay.js
+
+/**
+ * @param {string|boolean|number} color
+ * @returns {string}
+ */
+function cssColor(color) {
+  if (typeof color === 'number') {
+    color = color.toString(16);
+  } else if (!color) {
+    return 'transparent';
+  }
+
+  color = padColorString(color);
+
+  return '#' + color;
+}
+
+/**
+ * @param {string} color
+ * @return {string}
+ */
+function padColorString(color) {
+  color = color.toLowerCase();
+
+  while (color.length < 6) {
+    color = '0' + color;
+  }
+
+  return color;
+}
