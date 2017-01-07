@@ -8,17 +8,12 @@ var lineThickness = 6;
 var margin = 3; //Account for area of the screen beneath the bezel
 var innerMargin = 10;
 var gap=1;
-//var colors = ['screamingreen','inchworm','yellow'];
-var colors = ['black','black'];
+var colors = ['screamingreen','inchworm','yellow'];
+//var colors = ['black','black'];
 var backgroundColor = 'black';
 var startOutside = true;
 
 var settings = null;
-
-//Every minute we update
-rocky.on('minutechange', function(event) {
-  rocky.requestDraw();
-});
 
 rocky.on('draw', function(event) {
   // Get the CanvasRenderingContext2D object
@@ -127,6 +122,11 @@ rocky.on('message', function(event) {
 });
 
 rocky.postMessage({command: 'settings'});
+
+//Every minute we update
+rocky.on('minutechange', function(event) {
+  rocky.requestDraw();
+});
 
 // Borrowed from Clay.js
 
