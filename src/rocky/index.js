@@ -8,7 +8,8 @@ var lineThickness = 6;
 var margin = 3; //Account for area of the screen beneath the bezel
 var innerMargin = 10;
 var gap=1;
-var colors = ['screamingreen','inchworm','yellow'];
+//var colors = ['screamingreen','inchworm','yellow'];
+var colors = ['black','black'];
 var backgroundColor = 'black';
 var startOutside = true;
 
@@ -51,6 +52,9 @@ rocky.on('draw', function(event) {
           colors.splice(j,1);
         }
       }
+    if (colors.length==1){
+      colorUp = 0;
+    }
   }
   
   // Clear the screen

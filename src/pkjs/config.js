@@ -16,150 +16,156 @@ module.exports = [
       },
       {
         "type": "text",
-        "defaultValue": "Use up to 12 colors. The watchface will cycle through however many you choose."
-      },
-      {
-        "type": "color",
-        "messageKey": "BackgroundColor",
-        "defaultValue": "0x000000",
-        "label": "Background Color"
+        "defaultValue": "Toggle which colors you would like to use"
       },
       {
         "type": "color",
         "messageKey": "clr1",
         "defaultValue": "0x55FF55",
-        "label": "Color 1"
+        "sunlight": false,
+        "label": "Color 1 (Required)"
       },
       {
         "type": "toggle",
         "messageKey": "clr2On",
         "defaultValue": true,
-        "label": "Color 2"
+        "label": "Enable color 2"
       },
       {
         "type": "color",
         "messageKey": "clr2",
         "defaultValue": "0xAAFF55",
+        "sunlight": false,
         "label": "Color"
       },
       {
         "type": "toggle",
         "messageKey": "clr3On",
         "defaultValue": true,
-        "label": "Color 3"
+        "label": "Enable color 3"
       },
       {
         "type": "color",
         "messageKey": "clr3",
         "defaultValue": "0xFFFF00",
+        "sunlight": false,
         "label": "Color"
       },
       {
         "type": "toggle",
         "messageKey": "clr4On",
         "defaultValue": false,
-        "label": "Color 4"
+        "label": "Enable color 4"
       },
       {
         "type": "color",
         "messageKey": "clr4",
         "defaultValue": "0x00000",
-        "label": "Color"
+        "sunlight": false,
+        "label": "Enable color"
       },
       {
         "type": "toggle",
         "messageKey": "clr5On",
         "defaultValue": false,
-        "label": "Color 5"
+        "label": "Enable color 5"
       },
       {
         "type": "color",
         "messageKey": "clr5",
         "defaultValue": "0x00000",
+        "sunlight": false,
         "label": "Color"
       },
       {
         "type": "toggle",
         "messageKey": "clr6On",
         "defaultValue": false,
-        "label": "Color 6"
+        "label": "Enable color 6"
       },
       {
         "type": "color",
         "messageKey": "clr6",
         "defaultValue": "0x00000",
+        "sunlight": false,
         "label": "Color"
       },
       {
         "type": "toggle",
         "messageKey": "clr7On",
         "defaultValue": false,
-        "label": "Color 7"
+        "label": "Enable color 7"
       },
       {
         "type": "color",
         "messageKey": "clr7",
         "defaultValue": "0x00000",
+        "sunlight": false,
         "label": "Color"
       },
       {
         "type": "toggle",
         "messageKey": "clr8On",
         "defaultValue": false,
-        "label": "Color 8"
+        "label": "Enable color 8"
       },
       {
         "type": "color",
         "messageKey": "clr8",
         "defaultValue": "0x00000",
+        "sunlight": false,
         "label": "Color"
       },
       {
         "type": "toggle",
         "messageKey": "clr9On",
         "defaultValue": false,
-        "label": "Color 9"
+        "label": "Enable color 9"
       },
       {
         "type": "color",
         "messageKey": "clr9",
         "defaultValue": "0x00000",
+        "sunlight": false,
         "label": "Color"
       },
       {
         "type": "toggle",
         "messageKey": "clr10On",
         "defaultValue": false,
-        "label": "Color 10"
+        "label": "Enable color 10"
       },
       {
         "type": "color",
         "messageKey": "clr10",
         "defaultValue": "0x00000",
+        "sunlight": false,
         "label": "Color"
       },
       {
         "type": "toggle",
         "messageKey": "clr11On",
         "defaultValue": false,
-        "label": "Color 11"
+        "label": "Enable color 11"
       },
       {
         "type": "color",
         "messageKey": "clr11",
         "defaultValue": "0x00000",
+        "sunlight": false,
         "label": "Color"
       },
       {
         "type": "toggle",
         "messageKey": "clr12On",
         "defaultValue": false,
-        "label": "Color 12"
+        "label": "Enable color 12"
       },
       {
         "type": "color",
         "messageKey": "clr12",
         "defaultValue": "0x00000",
+        "sunlight": false,
         "label": "Color"
       }
     ]
@@ -172,10 +178,17 @@ module.exports = [
         "defaultValue": "More Settings"
       },
       {
+        "type": "color",
+        "messageKey": "BackgroundColor",
+        "defaultValue": "0x000000",
+        "sunlight": false,
+        "label": "Background Color"
+      },
+      {
         "type": "toggle",
         "messageKey": "startOutside",
         "label": "Start from outside (off to start fom the inside)",
-        "defaultValue": true
+        "defaultValue": false
       },
       {
         "type": "slider",
